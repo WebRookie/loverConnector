@@ -33,8 +33,12 @@ public class MsgResponse<T> implements Serializable {
         return (MsgResponse<T>) success("");
     }
 
-    public static <T> MsgResponse<T> error(CodeEnum codeEnum) {
+    public static <T> MsgResponse<T> fail(CodeEnum codeEnum) {
         return new MsgResponse<>(codeEnum);
+    }
+
+    public static <T> MsgResponse<T> fail(T data) {
+        return new MsgResponse<>(data);
     }
 
     public String getMessage() {

@@ -1,6 +1,7 @@
 package com.rookie.loverconnector.user.service;
 
 import com.rookie.loverconnector.user.vo.UserVO;
+import com.rookie.loverconnector.vo.MsgResponse;
 
 /**
  * @author WebRookie
@@ -8,5 +9,5 @@ import com.rookie.loverconnector.user.vo.UserVO;
  **/
 public interface UserService {
 
-    UserVO login(String jsCode);
+    MsgResponse<UserVO> login(String jsCode);
 }

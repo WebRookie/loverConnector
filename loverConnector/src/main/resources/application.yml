@@ -11,3 +11,6 @@ spring:
       maximum-pool-size: 10
       max-lifetime: 30000
       connection-test-query: SELECT 1
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
