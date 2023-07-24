@@ -20,9 +20,15 @@ public class MsgResponse<T> implements Serializable {
         this.code = CodeEnum.SUCCESS.getCode();
     }
 
-    private MsgResponse(CodeEnum codeEnum) {
+    public MsgResponse(CodeEnum codeEnum) {
         this.message = codeEnum.getMessage();
         this.code = codeEnum.getCode();
+    }
+
+    public MsgResponse(CodeEnum codeEnum, T data) {
+        this.message = codeEnum.getMessage();
+        this.code = codeEnum.getCode();
+        this.data = data;
     }
 
     public static <T> MsgResponse<T> success(T data) {

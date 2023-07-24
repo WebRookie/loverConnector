@@ -3,7 +3,9 @@ package com.rookie.loverconnector.user.service.impl;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.rookie.loverconnector.common.utils.RestTemplateUtil;
+import com.rookie.loverconnector.user.dao.UserDao;
 import com.rookie.loverconnector.user.service.UserService;
+import com.rookie.loverconnector.user.vo.UserVO;
 import com.rookie.loverconnector.vo.MsgResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,20 +33,27 @@ public class UserServiceImpl implements UserService {
     @Value("${myService.wx.secret}")
     private String appsecret;
 
+    @Resource
+    private UserDao userDao;
 
     @Override
     public MsgResponse login(String jsCode) {
         JSONObject wxLoginCode = JSONUtil.parseObj(getWxLoginCode(jsCode));
         System.out.println(wxLoginCode);
         String openId = wxLoginCode.getStr("openid");
+        UserVO userVo = null;
         if(StringUtils.hasText(openId)) {
-            log.info("用户有openId", openId);
-
+            log.info("openId有效", openId);
+            userVo = userDao.getUserByOpenId(openId);
+            if (userVo == null) {
+                // 创建用户
+                userVo =  userDao.createUserByOpenId(openId);
+            }
         }else {
             log.error("openId过期或者不存在");
             return MsgResponse.fail("请检查code或者响应是否有效");
         }
-        return null;
+        return MsgResponse.success(userVo);
     }
 
 
