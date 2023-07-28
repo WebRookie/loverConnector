@@ -1,6 +1,7 @@
 package com.rookie.loverconnector.vo;
 
 import com.rookie.loverconnector.common.constants.CodeEnum;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * @author WebRookie
  * @date 2023/7/19 15:36
  **/
+@Data
 public class MsgResponse<T> implements Serializable {
 
     private String message;
@@ -27,9 +29,10 @@ public class MsgResponse<T> implements Serializable {
 
     public MsgResponse(CodeEnum codeEnum, T data) {
         this.message = codeEnum.getMessage();
-        this.code = codeEnum.getCode();
         this.data = data;
+        this.code = codeEnum.getCode();
     }
+
 
     public static <T> MsgResponse<T> success(T data) {
         return new MsgResponse<>(data);
@@ -44,14 +47,8 @@ public class MsgResponse<T> implements Serializable {
     }
 
     public static <T> MsgResponse<T> fail(T data) {
-        return new MsgResponse<>(data);
+        return new MsgResponse<>(CodeEnum.REQUEST_ERROR, data);
     }
 
-    public String getMessage() {
-        return message;
-    }
 
-    public void setMessage(String message) {
-
-    }
 }

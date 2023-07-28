@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 /**
  * @author WebRookie
  * @date 2023/7/19 16:44
@@ -42,14 +41,14 @@ public class UserServiceImpl implements UserService {
         System.out.println(wxLoginCode);
         String openId = wxLoginCode.getStr("openid");
         UserVO userVo = null;
-        if(StringUtils.hasText(openId)) {
+        if (StringUtils.hasText(openId)) {
             log.info("openId有效", openId);
             userVo = userDao.getUserByOpenId(openId);
             if (userVo == null) {
                 // 创建用户
-                userVo =  userDao.createUserByOpenId(openId);
+                userVo = userDao.createUserByOpenId(openId);
             }
-        }else {
+        } else {
             log.error("openId过期或者不存在");
             return MsgResponse.fail("请检查code或者响应是否有效");
         }
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
         paramMap.put("js_code", jsCode);
         paramMap.put("grant_type", "authorization_code");
         String wxRequestUrl = "https://api.weixin.qq.com/sns/jscode2session";
-        String resultStr = RestTemplateUtil.get(restTemplate,wxRequestUrl, null, paramMap);
+        String resultStr = RestTemplateUtil.get(restTemplate, wxRequestUrl, null, paramMap);
         return resultStr;
     }
 

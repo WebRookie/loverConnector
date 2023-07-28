@@ -1,12 +1,12 @@
 package com.rookie.loverconnector.common.constants;
 
-import lombok.Getter;
+import lombok.Data;
 
 /**
  * @author WebRookie
  * @date 2023/7/24 10:18
  **/
-@Getter
+@Data
 public class ApiException extends RuntimeException {
     private int code;
     private String message;

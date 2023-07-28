@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rookie.loverconnector.user.dao.UserDao">
+    <resultMap id="basicUserDao" type="com.rookie.loverconnector.user.vo.UserVO">
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="is_related" property="isRelated" jdbcType="CHAR" />
+        <result column="open_id" property="openId" jdbcType="CHAR"></result>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
     <insert id="createUserByOpenId" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user (open_id)  values(#{openId})
     </insert>
 
-    <select id="getUserByOpenId" resultType="com.rookie.loverconnector.user.vo.UserVO">
+    <select id="getUserByOpenId" parameterType="String" resultType="com.rookie.loverconnector.user.vo.UserVO">
         select
             user_id as userId,
             nickname,
             phone,
             is_related as isRelated,
             create_date as createDate
-        from user where open_id = #{openId}
+        from user
+        where open_id = #{openId}
+    </select>
+    <select id="getUserByUserId" resultType="com.rookie.loverconnector.user.vo.UserVO">
+        select *
+        from user
+        where user_id = #{userId}
     </select>
 </mapper>

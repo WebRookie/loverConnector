@@ -10,4 +10,6 @@ import lombok.Data;
 public class UserEntity {
     private String userId;
 
+    private String nickname;
+
 }
