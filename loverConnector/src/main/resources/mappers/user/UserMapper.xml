@@ -13,6 +13,11 @@
     <insert id="createUserByOpenId" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user (open_id)  values(#{openId})
     </insert>
+    <update id="updateUserInfo">
+        update user
+        set nickname = #{nickname}, phone = #{phone}, is_related = #{isRelated}, access_token = #{accessToken}
+        where user_id = #{userId}
+    </update>
 
     <select id="getUserByOpenId" parameterType="String" resultType="com.rookie.loverconnector.user.vo.UserVO">
         select

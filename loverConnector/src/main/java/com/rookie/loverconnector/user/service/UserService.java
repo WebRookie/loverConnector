@@ -1,6 +1,7 @@
 package com.rookie.loverconnector.user.service;
 
 import com.rookie.loverconnector.user.vo.UserVO;
+import com.rookie.loverconnector.user.vo.request.UserInfo;
 import com.rookie.loverconnector.vo.MsgResponse;
 
 /**
@@ -10,4 +11,8 @@ import com.rookie.loverconnector.vo.MsgResponse;
 public interface UserService {
 
     MsgResponse<UserVO> login(String jsCode);
+
+    MsgResponse<UserVO> getUserInfo(int userId);
+
+    MsgResponse updateUserInfo(UserInfo userInfo);
 }

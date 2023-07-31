@@ -2,10 +2,12 @@ package com.rookie.loverconnector.user.service.impl;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.rookie.loverconnector.common.constants.CodeEnum;
 import com.rookie.loverconnector.common.utils.RestTemplateUtil;
 import com.rookie.loverconnector.user.dao.UserDao;
 import com.rookie.loverconnector.user.service.UserService;
 import com.rookie.loverconnector.user.vo.UserVO;
+import com.rookie.loverconnector.user.vo.request.UserInfo;
 import com.rookie.loverconnector.vo.MsgResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,11 +57,34 @@ public class UserServiceImpl implements UserService {
         return MsgResponse.success(userVo);
     }
 
+    @Override
+    public MsgResponse<UserVO> getUserInfo(int userId) {
+        System.out.println(userId);
+        UserVO userVO = userDao.getUserByUserId(userId);
+        log.info("用户查询如下:{}", userVO);;
+        if(userVO == null){
+            log.info("用户不存在");
+            return MsgResponse.fail(CodeEnum.USER_NOT_EXIST);
+        }
+
+        return MsgResponse.success(userVO);
+    }
+
+    @Override
+    public MsgResponse updateUserInfo(UserInfo userInfo) {
+        UserVO userVO = userDao.getUserByUserId(userInfo.getUserId());
+        if(userVO == null) {
+            return MsgResponse.fail(CodeEnum.USER_NOT_EXIST);
+        }
+        userDao.updateUserInfo(userInfo);
+        return MsgResponse.success();
+    }
+
 
     public String getWxLoginCode(String jsCode) {
         System.out.println(jsCode);
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>(16);
         paramMap.put("appid", appId);
         paramMap.put("secret", appsecret);
         paramMap.put("js_code", jsCode);

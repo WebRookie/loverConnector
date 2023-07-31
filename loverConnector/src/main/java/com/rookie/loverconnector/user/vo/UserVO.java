@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author WebRookie
@@ -28,14 +28,15 @@ public class UserVO {
     private String isRelated;
 
     @ApiModelProperty(value="用户创建时间")
-    private Date createDate;
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp createDate;
 
     @ApiModelProperty(value="用户唯一openId")
     private String openId;
 
     @ApiModelProperty(value="用户更新时间")
-    @JsonFormat
-    private Date updateDate;
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp updateDate;
 
     @ApiModelProperty(value = "用户accessToken")
     private String accessToken;

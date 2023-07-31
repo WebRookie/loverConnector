@@ -3,6 +3,7 @@ package com.rookie.loverconnector.user.controller;
 import com.rookie.loverconnector.user.service.UserService;
 import com.rookie.loverconnector.user.vo.UserVO;
 import com.rookie.loverconnector.user.vo.request.LoginRequest;
+import com.rookie.loverconnector.user.vo.request.UserInfo;
 import com.rookie.loverconnector.vo.MsgResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * @date 2023/7/19 16:17
  **/
 @RestController
-@Api(value="用户controller", tags="用户管理相关接口")
+@Api(value = "用户controller", tags = "用户管理相关接口")
 @RequestMapping("/user")
 public class UserController {
 
@@ -32,4 +33,16 @@ public class UserController {
         return userService.login(request.getJsCode());
     }
 
+    @PostMapping("/getUserInfo")
+    @ApiOperation(value = "获取用户信息", httpMethod = "POST")
+    public MsgResponse<UserVO> getUserInfo(@Validated(UserInfo.GetInfo.class) @RequestBody UserInfo request) {
+        return userService.getUserInfo(request.getUserId());
+    }
+
+    @PostMapping("/updateUserInfo")
+    @ApiOperation(value = "更新用户信息",httpMethod = "POST")
+    public MsgResponse updateUserInfo(@Validated @RequestBody UserInfo userInfo) {
+
+        return userService.updateUserInfo(userInfo);
+    }
 }

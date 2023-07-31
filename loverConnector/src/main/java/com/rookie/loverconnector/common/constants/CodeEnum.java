@@ -14,6 +14,7 @@ public enum CodeEnum {
     REQUEST_ERROR(40000, "请求出错"),
 
     PARAM_ERROR(40001, "参数错误"),
+    USER_NOT_EXIST(40002, "用户不存在"),
     // 服务器异常
     SERVICE_ERROR(50000, "服务异常")
     ;
