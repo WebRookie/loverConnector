@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
     public MsgResponse updateUserInfo(UserInfo userInfo) {
         UserVO userVO = userDao.getUserByUserId(userInfo.getUserId());
         if(userVO == null) {
+            System.out.println("用户不存在");
             return MsgResponse.fail(CodeEnum.USER_NOT_EXIST);
         }
         userDao.updateUserInfo(userInfo);
