@@ -8,11 +8,19 @@ spring:
     username: ${myService.mysql.user}
     password: ${myService.mysql.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      minimum-idle: 3
-      maximum-pool-size: 10
-      max-lifetime: 30000
-      connection-test-query: SELECT 1
+    druid:
+      # 连接池的补充设置
+      # 初始化连接数的大小，最小和最大
+      initial-size: 3
+      min-idle: 3
+      max-active: 10
+      # 间隔多久进行一次监测，监测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 验证数据库连接的有效性
+      validation-query: select '1' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -21,3 +29,8 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+pagehelper:
+  helper-dialect: mysql
+  # 是否合理化， 如何pageNum <1 则会查第一页，如果大于最后一页，则会查最后一页，
+  reasonable:  false
+  params: countSql

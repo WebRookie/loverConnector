@@ -1,10 +1,9 @@
 package com.rookie.loverconnector.record.service;
 
 import com.rookie.loverconnector.record.vo.RecordVO;
-import com.rookie.loverconnector.record.vo.request.RecordReq;
-import org.springframework.stereotype.Service;
+import com.rookie.loverconnector.record.vo.request.RecordListReq;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author WebRookie
@@ -15,10 +14,10 @@ public interface RecordService {
 
     /**
      * 查询用户记录
-     * @param recordReq
+     * @param recordListReq
      * @return
      */
-    List<RecordVO> findUserRecordList(RecordReq recordReq);
+    Map findUserRecordList(RecordListReq recordListReq);
 
     /**
      * 创建一条用户记录
@@ -26,4 +25,24 @@ public interface RecordService {
      * @return
      */
     int createRecord(RecordVO recordVo);
+
+    /**
+     * 更改用户记录
+     * @param recordVO
+     * @return
+     */
+    int updateRecord(RecordVO recordVO);
+
+    /**
+     * 删除用户记录（软删除）
+     * @param id
+     */
+    void deleteRecord(Integer id);
+
+    /**
+     * 根据Id查询记录
+     * @param id
+     * @return
+     */
+    RecordVO getRecordDetail(Integer id);
 }

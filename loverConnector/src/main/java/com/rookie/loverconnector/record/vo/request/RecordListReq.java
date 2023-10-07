@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author WebRookie
@@ -13,11 +14,15 @@ import javax.validation.constraints.Min;
 public class RecordListReq {
 
     @Min(value = 1, message = "查询数量必须大于1")
+    @NotNull
     private Integer pageSize;
 
     @Min(value = 1, message = "起始页面必须大于0")
+    @NotNull
     private Integer pageNo;
 
+
+    @NotNull(message = "param不能为空")
     @Valid
-    private RecordReq recordReq;
+    private RecordReq param;
 }

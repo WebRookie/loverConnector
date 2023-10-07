@@ -1,18 +1,21 @@
 package com.rookie.loverconnector.record.service.impl;
 
-import cn.hutool.core.lang.UUID;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rookie.loverconnector.record.dao.RecordDao;
 import com.rookie.loverconnector.record.service.RecordService;
 import com.rookie.loverconnector.record.vo.RecordVO;
-import com.rookie.loverconnector.record.vo.request.RecordReq;
+import com.rookie.loverconnector.record.vo.request.RecordListReq;
 import com.rookie.loverconnector.user.dao.UserDao;
 import com.rookie.loverconnector.user.vo.UserVO;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author WebRookie
@@ -29,9 +32,15 @@ public class RecordServiceImpl implements RecordService {
     private UserDao userDao;
 
     @Override
-    public List<RecordVO> findUserRecordList(RecordReq recordReq) {
-        System.out.println(recordReq);
-        return recordDao.getRecordList(recordReq);
+    public Map findUserRecordList(RecordListReq recordListReq) {
+        PageHelper.startPage(recordListReq.getPageNo(), recordListReq.getPageSize());
+        List<RecordVO> recordList = recordDao.getRecordList(recordListReq.getParam());
+        PageInfo pageInfo = new PageInfo(recordList);
+        log.info("分页信息：" + pageInfo);
+        HashMap map = new HashMap<>(2);
+        map.put("list",recordList);
+        map.put("total", pageInfo.getTotal());
+        return map;
     }
 
     @Override
@@ -43,5 +52,22 @@ public class RecordServiceImpl implements RecordService {
         }
         recordDao.createRecord(recordVo);
         return 1;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateRecord(RecordVO recordVO) {
+        return recordDao.updateRecord(recordVO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRecord(Integer id) {
+        recordDao.deleteRecord(id);
+    }
+
+    @Override
+    public RecordVO getRecordDetail(Integer id) {
+        return recordDao.getRecordById(id);
     }
 }

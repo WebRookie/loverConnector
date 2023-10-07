@@ -24,4 +24,24 @@ public interface RecordDao {
      * @param recordVo
      */
     void createRecord(RecordVO recordVo);
+
+    /**
+     * 根据id查询记录
+     * @param id
+     * @return
+     */
+    RecordVO getRecordById(Integer id);
+
+    /**
+     * 更新记录
+     * @param recordVO
+     * @return
+     */
+    int updateRecord(RecordVO recordVO);
+
+    /**
+     * 删除用户记录
+     * @param id
+     */
+    void deleteRecord(Integer id);
 }

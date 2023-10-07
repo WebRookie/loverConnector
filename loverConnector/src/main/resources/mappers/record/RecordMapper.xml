@@ -4,12 +4,33 @@
     <insert id="createRecord" parameterType="com.rookie.loverconnector.record.vo.RecordVO">
         insert into record (user_id, record_type, record_content, price) value(#{userId}, #{recordType}, #{recordContent}, #{price})
     </insert>
-
+    <update id="updateRecord">
+        update record set record_content = #{recordContent}, record_type = #{recordType}, price = #{price} where id = #{id}
+    </update>
+    <update id="deleteRecord">
+        update record set delete_flag = 2 where id = #{id}
+    </update>
     <select id="getRecordList" resultType="com.rookie.loverconnector.record.vo.RecordVO">
         select *
         from record
+        where delete_flag = 1
         <if test="createDate != null">
-            and to_days(create_date) = to_days(#{recordReq.createDate})
+           and date_format(create_date,'%Y-%m-%d') = #{createDate}
         </if>
+        and user_id = #{userId}
+        order by create_date desc
+    </select>
+    <select id="getRecordById" resultType="com.rookie.loverconnector.record.vo.RecordVO">
+        select
+            id,
+            user_id,
+            record_type,
+            record_content,
+            price,
+            create_date,
+            update_date
+        from
+            record
+        where id = #{id}
     </select>
 </mapper>
