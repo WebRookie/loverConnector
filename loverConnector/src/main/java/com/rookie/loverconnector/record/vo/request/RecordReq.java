@@ -11,7 +11,7 @@ import java.sql.Date;
  **/
 @Data
 public class RecordReq {
-    interface Search {}
+    public interface Search {}
 
     @NotNull(message = "userId不能为空", groups = {Search.class})
     private Integer userId;

@@ -12,10 +12,13 @@ import com.rookie.loverconnector.vo.MsgResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,17 +41,21 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public MsgResponse login(String jsCode) {
         JSONObject wxLoginCode = JSONUtil.parseObj(getWxLoginCode(jsCode));
-        System.out.println(wxLoginCode);
         String openId = wxLoginCode.getStr("openid");
         UserVO userVo = null;
         if (StringUtils.hasText(openId)) {
-            log.info("openId有效", openId);
+            log.info("openId有效");
             userVo = userDao.getUserByOpenId(openId);
+            // 新用户创建用户
             if (userVo == null) {
                 // 创建用户
-                userVo = userDao.createUserByOpenId(openId);
+                Integer userId = userDao.createUserByOpenId(openId);
+                log.info("用户Id：" + userId);
+                log.info("openId:" + openId);
+                userVo = userDao.getUserByUserId(userId);
             }
         } else {
             log.error("openId过期或者不存在");
@@ -71,6 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public MsgResponse updateUserInfo(UserInfo userInfo) {
         UserVO userVO = userDao.getUserByUserId(userInfo.getUserId());
         if(userVO == null) {
@@ -83,7 +91,8 @@ public class UserServiceImpl implements UserService {
 
 
     public String getWxLoginCode(String jsCode) {
-        System.out.println(jsCode);
+//        System.out.println(jsCode);
+        log.info("请求的jsCode", jsCode);
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> paramMap = new HashMap<>(16);
         paramMap.put("appid", appId);
@@ -92,6 +101,7 @@ public class UserServiceImpl implements UserService {
         paramMap.put("grant_type", "authorization_code");
         String wxRequestUrl = "https://api.weixin.qq.com/sns/jscode2session";
         String resultStr = RestTemplateUtil.get(restTemplate, wxRequestUrl, null, paramMap);
+        log.info("请求结果", resultStr);
         return resultStr;
     }
 

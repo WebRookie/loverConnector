@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * @author WebRookie
+ * @description 封装http请求
  * @date 2023/7/20 11:58
  **/
 public class RestTemplateUtil {

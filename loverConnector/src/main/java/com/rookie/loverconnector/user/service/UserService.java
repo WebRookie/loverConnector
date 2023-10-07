@@ -10,9 +10,24 @@ import com.rookie.loverconnector.vo.MsgResponse;
  **/
 public interface UserService {
 
+    /**
+     * 小程序用户登录业务
+     * @param jsCode
+     * @return
+     */
     MsgResponse<UserVO> login(String jsCode);
 
+    /**
+     * 根据Id查询用户信息
+     * @param userId
+     * @return
+     */
     MsgResponse<UserVO> getUserInfo(int userId);
 
+    /**
+     * 更新用户信息
+     * @param userInfo
+     * @return
+     */
     MsgResponse updateUserInfo(UserInfo userInfo);
 }

@@ -6,12 +6,15 @@
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
         <result column="phone" property="phone" jdbcType="VARCHAR" />
         <result column="is_related" property="isRelated" jdbcType="CHAR" />
-        <result column="open_id" property="openId" jdbcType="CHAR"></result>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"></result>
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
         <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     </resultMap>
-    <insert id="createUserByOpenId" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO user (open_id)  values(#{openId})
+    <insert id="createUserByOpenId" parameterType="java.lang.String" useGeneratedKeys="false">
+        <selectKey order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO user (open_id)  values (#{openId})
     </insert>
     <update id="updateUserInfo">
         update user

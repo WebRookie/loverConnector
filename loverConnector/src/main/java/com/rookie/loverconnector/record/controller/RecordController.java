@@ -6,7 +6,11 @@ import com.rookie.loverconnector.record.vo.RecordVO;
 import com.rookie.loverconnector.record.vo.request.RecordListReq;
 import com.rookie.loverconnector.vo.MsgResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +29,22 @@ public class RecordController {
     @Resource
     private RecordService recordService;
 
-    public MsgResponse<RecordVO> getUserRecord(@Validated RecordListReq recordListReq) {
-        PageHelper.startPage(recordListReq.getPageNo(), recordListReq.getPageSize());
-        List<RecordVO> recordList = recordService.findUserRecordList(recordListReq.getRecordReq());
+    @PostMapping("getUserRecord")
+    @ApiOperation(value = "获取用户记录", httpMethod="POST")
+    public MsgResponse<List<RecordVO>> getUserRecord(@Validated @RequestBody RecordListReq recordListReq) {
+        MsgResponse<List<RecordVO>> msgResponse = new MsgResponse<>();
+        List<RecordVO> userRecordList = recordService.findUserRecordList(recordListReq.getRecordReq());
+        msgResponse.setData(userRecordList);
+        return msgResponse;
+    }
+
+    @PostMapping("createRecord")
+    @ApiOperation(value = "创建一条记录", httpMethod = "POST")
+    public MsgResponse createRecord(@Validated(RecordVO.CreateRecord.class) @RequestBody  RecordVO recordVo) {
+        int result = recordService.createRecord(recordVo);
+        if(result == 1) {
+            return MsgResponse.success();
+        }
+        return  MsgResponse.fail("请求出错");
     }
 }

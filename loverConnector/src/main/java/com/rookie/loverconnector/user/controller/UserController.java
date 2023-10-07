@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author WebRookie
@@ -39,10 +40,10 @@ public class UserController {
         return userService.getUserInfo(request.getUserId());
     }
 
-    @PostMapping("/updateUserInfo")
+    @PostMapping("updateUserInfo")
     @ApiOperation(value = "更新用户信息",httpMethod = "POST")
-    public MsgResponse updateUserInfo(@Validated @RequestBody UserInfo userInfo) {
-
+    public MsgResponse updateUserInfo(@Validated(UserInfo.UpdateInfo.class) @RequestBody UserInfo userInfo) {
+        System.out.println(userInfo);
         return userService.updateUserInfo(userInfo);
     }
 }

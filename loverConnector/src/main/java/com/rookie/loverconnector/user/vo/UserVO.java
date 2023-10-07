@@ -40,4 +40,5 @@ public class UserVO {
 
     @ApiModelProperty(value = "用户accessToken")
     private String accessToken;
+
 }

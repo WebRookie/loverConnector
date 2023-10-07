@@ -2,6 +2,7 @@ package com.rookie.loverconnector.user.dao;
 
 import com.rookie.loverconnector.user.vo.UserVO;
 import com.rookie.loverconnector.user.vo.request.UserInfo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -21,7 +22,7 @@ public interface UserDao {
      * @param openId
      * @return
      */
-    UserVO createUserByOpenId(String openId);
+    Integer createUserByOpenId(String openId);
 
     /**
      * 根据id获取用户
@@ -30,5 +31,9 @@ public interface UserDao {
      */
     UserVO getUserByUserId(int userId);
 
+    /**
+     * 更新用户信息
+     * @param userInfo
+     */
     void updateUserInfo(UserInfo userInfo);
 }

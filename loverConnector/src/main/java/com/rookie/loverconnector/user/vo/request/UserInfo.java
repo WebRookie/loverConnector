@@ -20,11 +20,12 @@ public class UserInfo {
     @ApiModelProperty(value = "用户id",name="userId", required = true)
     private Integer userId;
 
-//    @NotBlank(message = "用户昵称不能为空", groups = {UpdateInfo.class})
+
+
     @ApiModelProperty(value = "用户昵称", name="nickname")
     private String nickname;
 
-    @Pattern(message = "请输入正确的手机号",regexp = "/^1[3-9]\\d{9}$/", groups = {UpdateInfo.class})
+    @Pattern(message = "请输入正确的手机号",regexp = "^1[3-9]\\d{9}$", groups = {UpdateInfo.class})
     private String phone;
 
     private String isRelated;

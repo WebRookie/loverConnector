@@ -12,5 +12,16 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RecordDao {
 
+    /**
+     * 查询用户记录
+     * @param recordReq
+     * @return
+     */
     Page<RecordVO> getRecordList(RecordReq recordReq);
+
+    /**
+     * 创建一条记录
+     * @param recordVo
+     */
+    void createRecord(RecordVO recordVo);
 }

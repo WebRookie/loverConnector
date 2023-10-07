@@ -33,13 +33,17 @@ public class MsgResponse<T> implements Serializable {
         this.code = codeEnum.getCode();
     }
 
+    public MsgResponse() {
+
+    }
+
 
     public static <T> MsgResponse<T> success(T data) {
         return new MsgResponse<>(data);
     }
 
     public static <T> MsgResponse<T> success() {
-        return (MsgResponse<T>) success("");
+        return (MsgResponse<T>) success(null);
     }
 
     public static <T> MsgResponse<T> fail(CodeEnum codeEnum) {
